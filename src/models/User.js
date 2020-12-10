@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../database');
+const Experience = require('./Experience');
 //User model still in progress
 
 const User = sequelize.define('user', {
@@ -19,5 +20,7 @@ const User = sequelize.define('user', {
         }
     }
 });
+
+User.hasMany(Experience);
 
 module.exports = User;
