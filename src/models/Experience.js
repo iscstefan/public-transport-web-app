@@ -1,5 +1,4 @@
 const Sequelize = require('sequelize');
-const User = require('./User');
 const sequelize = require('../database');
 
 //User model still in progress
@@ -10,7 +9,8 @@ const sequelize = require('../database');
 
 const Experience = sequelize.define("experience", {
     city: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
     },
     start: {
         type: Sequelize.STRING
@@ -18,8 +18,9 @@ const Experience = sequelize.define("experience", {
     destination: {
         type: Sequelize.STRING
     },
-    transort: {
-        type: Sequelize.STRING
+    transport: {
+        type: Sequelize.STRING,
+        allowNull: false
     },
     startTime: {
         type: Sequelize.TIME
@@ -37,7 +38,5 @@ const Experience = sequelize.define("experience", {
         type: Sequelize.INTEGER
     }
 });
-
-Experience.hasMany(User);
 
 module.exports = Experience;
