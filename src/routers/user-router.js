@@ -8,9 +8,9 @@ router.get('/users', userController.getUsers);
 
 router.post('/users', userController.addUser);
 
-// router.put('/users/:uid', userController.updateUsers);
+// router.put('/users/:uid', userController.updateUser);
 
-// router.delete('/users/:uid', userController.deleteUsers);
+// router.delete('/users/:uid', userController.deleteUser);
 
 
 //experientele utilizatorilor
