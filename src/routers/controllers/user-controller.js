@@ -1,6 +1,7 @@
 const Experience = require('../../models/Experience');
 const User = require('../../models/User');
 const Sequelize = require('sequelize');
+const { use } = require('../user-router');
 const Op = Sequelize.Op;
 
 const addExperience = async (req, res, next) => {
@@ -47,8 +48,102 @@ const addUser = async (req, res, next) => {
     }
 }
 
+const updateUser = async (req, res, next) => {
+    try {
+        const user = await User.findByPk(req.params.uid);
+        if(user){
+            await user.update(req.body);
+            res.status(200).json({message: 'accepted'});
+        }else{
+            res.status(404).json({message: 'not found'});
+        }
+    } catch (err) {
+        next(err);
+    }
+}
+
+const deleteUser = async (req, res, next) => {
+    try {
+        const user = await User.findByPk(req.params.uid);
+        if(user){
+            await user.destroy(req.body);
+            res.status(200).json({message: 'accepted'});
+        }else{
+            res.status(404).json({message: 'not found'});
+        }
+    } catch (err) {
+        next(err);
+    }
+}
+
+const getExperiences = async (req, res, next) => {
+    try {
+        const user = await User.findByPk(req.params.uid, {
+            include: [Experience]
+        });
+        if(user){
+            res.status(200).json(user.experiences);
+        }else{
+            res.status(404).json({message: 'not found'});
+        }
+    } catch (err) {
+        next(err);
+    }
+}
+
+const deleteExperience = async (req, res, next) => {
+    try {
+        const user = await User.findByPk(req.params.uid);
+        if(user){
+            const experiences = await user.getExperiences({
+                id: req.params.eid
+            });
+            console.log(req.params.eid);
+            console.log(experiences);
+            const experience = experiences.shift();
+            if(experience){
+                await experience.destroy();
+                res.status(200).json({message: 'accepted'});
+            }else{
+                res.status(404).json({message: 'not found'});
+            }
+        }else{
+            res.status(404).json({message: 'not found'});
+        }
+    } catch (err) {
+        next(err);
+    }
+}
+
+const updateExperience = async (req, res, next) => {
+    try {
+        const user = await User.findByPk(req.params.uid);
+        if(user){
+            const experiences = await user.getExperiences({
+                id: req.params.eid
+            });
+            const experience = experiences.shift();
+            if(experience){
+                await experience.update(req.body);
+                res.status(200).json({message: 'accepted'});
+            }else{
+                res.status(404).json({message: 'not found'});
+            }
+        }else{
+            res.status(404).json({message: 'not found'});
+        }
+    } catch (err) {
+        next(err);
+    }
+}
+
 module.exports = {
     addExperience,
     getUsers,
-    addUser
+    addUser,
+    updateUser,
+    deleteUser,
+    getExperiences,
+    deleteExperience,
+    updateExperience
 }
