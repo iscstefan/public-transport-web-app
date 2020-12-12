@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('public_transport', 'root', 'server22', {
+const sequelize = new Sequelize('public_transport', 'root', 'hellodb', {
     dialect: 'mysql'
 });
 
