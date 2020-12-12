@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const sequelize = require('./database');
 const experiences = require('./routers/experiences-router');
 const users = require('./routers/user-router');
+const authRouter = require('./routers/auth-router');
 
 const app = express();
 //app.use(cors());
@@ -20,6 +21,7 @@ app.get('/create', async (req, res, next) => {
 
 app.use(experiences);
 app.use(users);
+app.use(authRouter);
 
 
 app.use((err, req, res, next) => {

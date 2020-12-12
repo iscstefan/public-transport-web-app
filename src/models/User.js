@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../database');
 const Experience = require('./Experience');
+const bcrypt = require('bcrypt');
 //User model still in progress
 
 const User = sequelize.define('user', {
@@ -18,8 +19,24 @@ const User = sequelize.define('user', {
         validate: {
             len: [3,100]
         }
+    },
+    token: {
+        type: Sequelize.STRING
     }
 });
+
+User.beforeCreate(async (user) => {
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt);
+});
+
+User.prototype.validPassword = async function(password) {
+    return await bcrypt.compare(password, this.password);
+}
+
+User.prototype.validToken = function(token) {
+    return this.token === token;
+}
 
 User.hasMany(Experience);
 
