@@ -42,6 +42,10 @@ const addUser = async (req, res, next) => {
         await User.create(req.body);
         res.status(201).json({ message: 'created' });
     } catch (err) {
+        if (err.name === 'SequelizeUniqueConstraintError') {
+            res.status(422).json({ message: 'username already taken' });
+        }
+
         next(err);
     }
 }
@@ -50,12 +54,25 @@ const updateUser = async (req, res, next) => {
     try {
         const user = await User.findByPk(req.params.uid);
         if (user) {
-            await user.update(req.body);
+            const username = req.body.username;
+            const password = req.body.password;
+            
+            if(username)
+                user.username = username;
+            
+            if(password)
+                user.password = await user.hash(password);
+
+            await user.save();
             res.status(200).json({ message: 'accepted' });
         } else {
             res.status(404).json({ message: 'not found' });
         }
     } catch (err) {
+        if (err.name === 'SequelizeUniqueConstraintError') {
+            res.status(422).json({ message: 'username already taken' });
+        }
+
         next(err);
     }
 }

@@ -17,7 +17,7 @@ const User = sequelize.define('user', {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
-            len: [3,100]
+            len: [3, 100]
         }
     },
     token: {
@@ -28,14 +28,21 @@ const User = sequelize.define('user', {
 User.beforeCreate(async (user) => {
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
+    user.token = null;
 });
 
-User.prototype.validPassword = async function(password) {
+User.prototype.validPassword = async function (password) {
     return await bcrypt.compare(password, this.password);
 }
 
-User.prototype.validToken = function(token) {
+User.prototype.validToken = function (token) {
     return this.token === token;
+}
+
+User.prototype.hash = async function (password) {
+    const salt = await bcrypt.genSalt(10);
+    password = await bcrypt.hash(password, salt);
+    return password;
 }
 
 User.hasMany(Experience);

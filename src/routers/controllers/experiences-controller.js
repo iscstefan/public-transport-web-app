@@ -45,5 +45,5 @@ const getExperiences = async (req, res, next) => {
 }
 
 module.exports = {
-    getExperiences,
+    getExperiences
 }
