@@ -19,7 +19,7 @@ const addExperience = async (req, res, next) => {
 
     } catch (err) {
         if (err.name === 'SequelizeValidationError') {
-            res.status(422).json({ message: 'incorrect input' });
+            res.status(422).json({ message: 'fill in all required fields' });
         }
         else {
             next(err);
@@ -42,6 +42,10 @@ const addUser = async (req, res, next) => {
         await User.create(req.body);
         res.status(201).json({ message: 'created' });
     } catch (err) {
+        if (err.name === 'SequelizeUniqueConstraintError') {
+            res.status(422).json({ message: 'username already taken' });
+        }
+
         next(err);
     }
 }
@@ -50,12 +54,25 @@ const updateUser = async (req, res, next) => {
     try {
         const user = await User.findByPk(req.params.uid);
         if (user) {
-            await user.update(req.body);
+            const username = req.body.username;
+            const password = req.body.password;
+            
+            if(username)
+                user.username = username;
+            
+            if(password)
+                user.password = await user.hash(password);
+
+            await user.save();
             res.status(200).json({ message: 'accepted' });
         } else {
             res.status(404).json({ message: 'not found' });
         }
     } catch (err) {
+        if (err.name === 'SequelizeUniqueConstraintError') {
+            res.status(422).json({ message: 'username already taken' });
+        }
+
         next(err);
     }
 }
@@ -101,7 +118,7 @@ const deleteExperience = async (req, res, next) => {
             });
 
             const experience = experiences.shift();
-            
+
             if (experience) {
                 await experience.destroy();
                 res.status(200).json({ message: 'accepted' });
@@ -126,7 +143,7 @@ const updateExperience = async (req, res, next) => {
                     id: req.params.eid
                 }
             });
-            
+
             const experience = experiences.shift();
 
             if (experience) {
@@ -143,6 +160,28 @@ const updateExperience = async (req, res, next) => {
     }
 }
 
+const grantAccess = async (req, res, next) => {
+    try {
+        const token = req.headers.token;
+        const user = await User.findByPk(req.params.uid);
+        
+        if(user) {
+            if(user.validToken(token)) {
+                next();
+            }
+            else {
+                res.status(401).json({message: 'unauthorized'});
+            }
+        }
+        else {
+            res.status(404).json({message: 'not found'});
+        }
+
+    } catch (err) {
+        next(err);
+    }
+};
+
 module.exports = {
     addExperience,
     getUsers,
@@ -151,5 +190,6 @@ module.exports = {
     deleteUser,
     getExperiences,
     deleteExperience,
-    updateExperience
+    updateExperience,
+    grantAccess
 }

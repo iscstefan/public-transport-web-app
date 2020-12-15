@@ -1,12 +1,18 @@
 const express = require('express');
 const userController = require('./controllers/user-controller');
-
 const router = express.Router();
+
+
 
 //utilizatori
 router.get('/users', userController.getUsers);
 
 router.post('/users', userController.addUser);
+
+
+//control access utilizatori
+router.use('/users/:uid', userController.grantAccess);
+
 
 router.put('/users/:uid', userController.updateUser);
 
