@@ -1,7 +1,6 @@
 const Experience = require('../../models/Experience');
 const User = require('../../models/User');
 const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
 
 const addExperience = async (req, res, next) => {
     try {
@@ -36,7 +35,6 @@ const getUsers = async (req, res, next) => {
     }
 }
 
-//de tratat cazul in care se arunca exceptie notunique
 const addUser = async (req, res, next) => {
     try {
         await User.create(req.body);
@@ -45,8 +43,9 @@ const addUser = async (req, res, next) => {
         if (err.name === 'SequelizeUniqueConstraintError') {
             res.status(422).json({ message: 'username already taken' });
         }
-
-        next(err);
+        else {
+            next(err);
+        }
     }
 }
 
