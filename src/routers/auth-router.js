@@ -18,7 +18,7 @@ authRouter.post('/login', async (req, res, next) => {
             const token = crypto.randomBytes(64).toString('hex');
             user.token = token;
             await user.save();
-            res.status(200).json({token: token});
+            res.status(200).json({token: token, id: user.id});
         }
         else {
             res.status(401).json({message: 'invalid credentials'});

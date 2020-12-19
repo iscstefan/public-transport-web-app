@@ -2,7 +2,6 @@ const Sequelize = require('sequelize');
 const sequelize = require('../database');
 const Experience = require('./Experience');
 const bcrypt = require('bcrypt');
-//User model still in progress
 
 const User = sequelize.define('user', {
     username: {
