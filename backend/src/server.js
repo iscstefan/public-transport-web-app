@@ -4,9 +4,10 @@ const sequelize = require('./database');
 const experiences = require('./routers/experiences-router');
 const users = require('./routers/user-router');
 const authRouter = require('./routers/auth-router');
+const cors = require('cors');
 
 const app = express();
-//app.use(cors());
+app.use(cors());
 app.use(bodyParser.json());
 
 //pentru test

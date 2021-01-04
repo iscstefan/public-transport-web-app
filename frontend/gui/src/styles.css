@@ -1,0 +1,33 @@
+body {
+    margin: 0px;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
+
+.main-input-text {
+    width: 50%;
+}
+
+.menubar {
+    background-color: rgb(43, 49, 59);
+}
+
+.p-menuitem-text {
+    color: whitesmoke !important;
+}
+
+.p-menuitem-icon {
+    color: whitesmoke !important;
+}
+
+.p-submenu-icon {
+    color: whitesmoke !important;
+}
+
+.experience {
+    width: 100vw;
+}
