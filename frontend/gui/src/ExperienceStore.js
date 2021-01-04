@@ -7,9 +7,9 @@ class ExperienceStore {
         this.emitter = new EventEmitter();
     }
 
-    async getAll() {
+    async getAll(queryParams) {
         try {
-            const response = await fetch(`${SERVER}/experiences`);
+            const response = await fetch(`${SERVER}/experiences?filter=${queryParams}`);
             const data = await response.json();
             this.data = data;
             this.emitter.emit('GET_ALL_SUCCESS');

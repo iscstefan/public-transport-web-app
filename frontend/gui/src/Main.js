@@ -14,18 +14,20 @@ class Main extends React.Component {
             experiences: []
         }
 
+        this.handleChange = (evt) => {
+            expStore.getAll(evt.target.value);
+        }
+
     }
 
     componentDidMount() {
-        expStore.getAll();
+        expStore.getAll("");
         expStore.emitter.addListener('GET_ALL_SUCCESS', () => {
             this.setState({
                 experiences: expStore.data
             })
         })
     }
-
-
 
     render() {
         const items = [
@@ -166,7 +168,6 @@ class Main extends React.Component {
         };
 
         const renderGridItem = (data) => {
-            console.log(data);
             return (
                 <div className='experience'>
                    <Card title={data.city} style={{marginBottom: '1em' }}>
@@ -188,7 +189,9 @@ class Main extends React.Component {
                     <Menubar model={items} className="menubar" />
                 </div>
                 <div className="center">
-                    <InputText type="text" className="p-inputtext-lg p-d-block main-input-text" placeholder="Search for cities, transport, destinations..." />
+                    <InputText type="text" className="p-inputtext-lg p-d-block main-input-text" 
+                    placeholder="Search for cities, transport, destinations..."
+                    onChange={this.handleChange} />
                 </div>
                 <div className="card">
                     <DataView style={{padding: '2em'}} value={this.state.experiences} layout={'grid'} itemTemplate={itemTemplate}></DataView>
