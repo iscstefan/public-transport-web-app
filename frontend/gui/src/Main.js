@@ -22,6 +22,7 @@ class Main extends React.Component {
         this.handleChange = (evt) => {
             //preluare experiente pe baza de queryparams
             expStore.getAll(evt.target.value);
+            this.mounted = true;
         }
 
         this.getMenuItems = () => {
@@ -59,6 +60,18 @@ class Main extends React.Component {
 
 
         this.mounted = true;
+
+        this.signup = () => {
+            this.props.history.push('/signup');
+        }
+
+        this.logout = () => {
+            this.props.onLogout({
+                username: '',
+                id: '',
+                token: ''
+            })
+        }
 
     }
 
@@ -148,7 +161,7 @@ class Main extends React.Component {
             <div>
                 <div>
                     <Menubar model={this.getMenuItems()} className="menubar" 
-                    end={this.props.loggedUser.username==='' ? <Button label="Sign Up" /> :  <Button label="Log Out" /> } />
+                    end={this.props.loggedUser.username==='' ? <Button label="Sign Up" onClick={this.signup}/> :  <Button label="Log Out" onClick={this.logout}/> } />
                 </div>
                 <div className="center">
                     <InputText type="text" className="p-inputtext-lg p-d-block main-input-text"

@@ -51,6 +51,7 @@ class Login extends React.Component {
                     <Menubar model={this.menuItems} className="menubar" />
                 </div>
                 <div className="centeredLogin">
+                    <h1>Log In</h1>
                     <span className="p-float-label centeredLoginInput">
                         <InputText style={{width: '100%'}} id="username" value={this.state.username} name="username" onChange={this.handleChange} />
                         <label htmlFor="username">Username</label>

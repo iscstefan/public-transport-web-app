@@ -16,7 +16,7 @@ class App extends React.Component {
       }
     }
 
-    this.setLogin = (user) => {
+    this.setUserState = (user) => {
       this.setState({
         user: user
       })
@@ -28,10 +28,10 @@ class App extends React.Component {
       <Router>
         <Switch>
           <Route path='/' exact={true}>
-            <Main loggedUser={this.state.user}/>
+            <Main loggedUser={this.state.user} onLogout={this.setUserState}/>
           </Route>
           <Route path='/login' exact={true}>
-            <Login onLogin={this.setLogin}/>
+            <Login onLogin={this.setUserState}/>
           </Route>
           <Route path='/signup' exact={true}>
             <Signup />
