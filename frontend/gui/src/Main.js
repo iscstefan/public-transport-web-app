@@ -2,8 +2,10 @@ import React from 'react'
 import { Menubar } from 'primereact/menubar';
 import { InputText } from 'primereact/inputtext';
 import expStore from './ExperienceStore';
-import { DataView, DataViewLayoutOptions } from 'primereact/dataview';
+import { DataView } from 'primereact/dataview';
 import { Card } from 'primereact/card';
+import { withRouter } from 'react-router';
+import { Button } from 'primereact/button';
 
 
 class Main extends React.Component {
@@ -11,12 +13,29 @@ class Main extends React.Component {
         super();
 
         this.state = {
-            experiences: []
+            experiences: [],
+            test:"asd"
         }
 
         this.handleChange = (evt) => {
+            //preluare experiente pe baza de queryparams
             expStore.getAll(evt.target.value);
         }
+
+        this.items = [
+            {
+                label: 'Experiences',
+                command: (event) => {
+                    window.location.reload();
+                }
+            },
+            {
+                label: 'Login',
+                command: (event) => {
+                    this.props.history.push('/login');   
+                }
+            }
+        ];
 
     }
 
@@ -30,135 +49,6 @@ class Main extends React.Component {
     }
 
     render() {
-        const items = [
-            {
-                label: 'File',
-                icon: 'pi pi-fw pi-file',
-                items: [
-                    {
-                        label: 'New',
-                        icon: 'pi pi-fw pi-plus',
-                        items: [
-                            {
-                                label: 'Bookmark',
-                                icon: 'pi pi-fw pi-bookmark'
-                            },
-                            {
-                                label: 'Video',
-                                icon: 'pi pi-fw pi-video'
-                            },
-
-                        ]
-                    },
-                    {
-                        label: 'Delete',
-                        icon: 'pi pi-fw pi-trash'
-                    },
-                    {
-                        separator: true
-                    },
-                    {
-                        label: 'Export',
-                        icon: 'pi pi-fw pi-external-link'
-                    }
-                ]
-            },
-            {
-                label: 'Edit',
-                icon: 'pi pi-fw pi-pencil',
-                items: [
-                    {
-                        label: 'Left',
-                        icon: 'pi pi-fw pi-align-left'
-                    },
-                    {
-                        label: 'Right',
-                        icon: 'pi pi-fw pi-align-right'
-                    },
-                    {
-                        label: 'Center',
-                        icon: 'pi pi-fw pi-align-center'
-                    },
-                    {
-                        label: 'Justify',
-                        icon: 'pi pi-fw pi-align-justify'
-                    },
-
-                ]
-            },
-            {
-                label: 'Users',
-                icon: 'pi pi-fw pi-user',
-                items: [
-                    {
-                        label: 'New',
-                        icon: 'pi pi-fw pi-user-plus',
-
-                    },
-                    {
-                        label: 'Delete',
-                        icon: 'pi pi-fw pi-user-minus',
-
-                    },
-                    {
-                        label: 'Search',
-                        icon: 'pi pi-fw pi-users',
-                        items: [
-                            {
-                                label: 'Filter',
-                                icon: 'pi pi-fw pi-filter',
-                                items: [
-                                    {
-                                        label: 'Print',
-                                        icon: 'pi pi-fw pi-print'
-                                    }
-                                ]
-                            },
-                            {
-                                icon: 'pi pi-fw pi-bars',
-                                label: 'List'
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                label: 'Events',
-                icon: 'pi pi-fw pi-calendar',
-                items: [
-                    {
-                        label: 'Edit',
-                        icon: 'pi pi-fw pi-pencil',
-                        items: [
-                            {
-                                label: 'Save',
-                                icon: 'pi pi-fw pi-calendar-plus'
-                            },
-                            {
-                                label: 'Delete',
-                                icon: 'pi pi-fw pi-calendar-minus'
-                            },
-
-                        ]
-                    },
-                    {
-                        label: 'Archieve',
-                        icon: 'pi pi-fw pi-calendar-times',
-                        items: [
-                            {
-                                label: 'Remove',
-                                icon: 'pi pi-fw pi-calendar-minus'
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                label: 'Quit',
-                icon: 'pi pi-fw pi-power-off'
-            }
-        ];
-
         const itemTemplate = (experience) => {
             if (!experience) {
                 return;
@@ -177,6 +67,9 @@ class Main extends React.Component {
                         <p className="p-m-0" style={{ lineHeight: '1.5' }}>
                             destination: {data.destination}
                         </p>
+                        <p className="p-m-0" style={{ lineHeight: '1.5' }}>
+                            transport: {data.transport}
+                        </p>
                     </Card>
                 </div>
 
@@ -186,7 +79,7 @@ class Main extends React.Component {
         return (
             <div>
                 <div>
-                    <Menubar model={items} className="menubar" />
+                    <Menubar model={this.items} className="menubar" end={<Button label="Sign Up"/>} />
                 </div>
                 <div className="center">
                     <InputText type="text" className="p-inputtext-lg p-d-block main-input-text" 
@@ -201,4 +94,4 @@ class Main extends React.Component {
     }
 }
 
-export default Main;
+export default withRouter(Main);

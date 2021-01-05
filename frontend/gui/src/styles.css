@@ -18,6 +18,8 @@ body {
     width: 100%;
     border:1px solid rgb(43, 49, 59);
     border-radius: 0;
+    padding-left: 3em;
+    padding-right: 3em;
 }
 
 .p-menuitem-text {
@@ -34,4 +36,17 @@ body {
 
 .experience {
     width: 100vw;
+}
+
+.centeredLogin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.centeredLoginInput {
+    /* de adaugat stiluri! */
+    
+    
 }
