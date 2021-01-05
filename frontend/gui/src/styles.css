@@ -39,6 +39,10 @@ body {
 }
 
 .centeredLogin {
+    position: relative;
+    top: 45px;
+    width: 100%;
+    height: 60vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -46,7 +50,27 @@ body {
 }
 
 .centeredLoginInput {
-    /* de adaugat stiluri! */
-    
-    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1em;
+    width: 20%;
+    min-width: 100px;
+}
+
+.submitBtnParent{
+    width: 20%;
+    min-width: 100px;
+
+}
+
+.submitBtnParent > button{
+    border: 1px solid rgb(43, 49, 59);
+    width: 100%;
+    padding: 12px;
+    margin-top: 2em;
+}
+
+.p-submenu-list .p-menuitem-text {
+    color: black !important;
 }

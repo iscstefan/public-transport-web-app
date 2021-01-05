@@ -6,8 +6,8 @@ import { Button } from 'primereact/button';
 import loginStore from './LoginStore';
 
 class Login extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             username: "",
@@ -36,6 +36,7 @@ class Login extends React.Component {
 
     componentDidMount() {
         loginStore.emitter.addListener('LOGIN_SUCCESS', () => {
+            this.props.onLogin(loginStore.user);
             this.props.history.push('/');
         });
         loginStore.emitter.addListener('LOGIN_FAILED', () => {
@@ -51,14 +52,14 @@ class Login extends React.Component {
                 </div>
                 <div className="centeredLogin">
                     <span className="p-float-label centeredLoginInput">
-                        <InputText id="username" value={this.state.username} name="username" onChange={this.handleChange} />
+                        <InputText style={{width: '100%'}} id="username" value={this.state.username} name="username" onChange={this.handleChange} />
                         <label htmlFor="username">Username</label>
                     </span>
                     <span className="p-float-label centeredLoginInput">
-                        <InputText id="password" value={this.state.password} name="password" onChange={this.handleChange} />
+                        <InputText style={{width: '100%'}} type='password' id="password" value={this.state.password} name="password" onChange={this.handleChange} />
                         <label htmlFor="password">Password</label>
                     </span>
-                    <div>
+                    <div className="submitBtnParent">
                         <Button label="Submit" onClick={this.handleLogin}/>
                     </div>
                 </div>
@@ -67,4 +68,4 @@ class Login extends React.Component {
     }
 }
 
-export default withRouter(Login);
+export default withRouter(Login); 
