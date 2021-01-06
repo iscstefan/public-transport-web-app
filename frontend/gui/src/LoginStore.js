@@ -47,6 +47,27 @@ class LoginStore {
             this.emitter.emit('LOGIN_FAILED');
         }
     }
+
+    async signup(user){
+        try {
+            const response = await fetch(`${SERVER}/users`, {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json' 
+                },
+                body: JSON.stringify(user)
+            });
+
+            if(response.status === 201){
+                this.emitter.emit('SIGNUP_SUCCESS');
+            } else {
+                this.emitter.emit('SIGNUP_FAILED');
+            }
+        } catch (err) {
+            console.warn(err);
+            this.emitter.emit('SIGNUP_FAILED');
+        }
+    }
 }
 
 const loginStore = new LoginStore();

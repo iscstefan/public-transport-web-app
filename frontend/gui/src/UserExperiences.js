@@ -1,67 +1,42 @@
-import React from 'react'
+import React from 'react';
+import { withRouter } from 'react-router';
 import { Menubar } from 'primereact/menubar';
-import { InputText } from 'primereact/inputtext';
-import ExperienceStore from './ExperienceStore';
 import { DataView } from 'primereact/dataview';
 import { Card } from 'primereact/card';
-import { withRouter } from 'react-router';
 import { Button } from 'primereact/button';
+import UserStore from "./UserStore"
 
-
-class Main extends React.Component {
+class UserExperiences extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             experiences: []
-        }
+        };
 
-        //daca nu este autentificat utilizatorul, se va afisa "Login" in meniu, altfel, numele utilizatorului
-        this.expStore = new ExperienceStore();
-
-        this.handleChange = (evt) => {
-            //preluare experiente pe baza de queryparams
-            this.expStore.getAllWithQuery(evt.target.value);
-        }
+        this.store = new UserStore(this.props.user);
 
         this.getMenuItems = () => {
             let items;
-            if (this.props.loggedUser.username === "") {
-                items = [
-                    {
-                        label: 'Experiences',
-                    },
-                    {
-                        label: "Login",
-                        command: (event) => {
-                            this.props.history.push('/login');
+
+            items = [
+                {
+                    label: 'Experiences',
+                    command: (event) => {
+                        this.props.history.push('/');
+                    }
+                },
+                {
+                    label: this.props.user.username,
+                    items: [
+                        {
+                            label: 'My Experiences',
                         }
-                    }
-                ]
-            } else {
-                items = [
-                    {
-                        label: 'Experiences',
-                    },
-                    {
-                        label: this.props.loggedUser.username,
-                        items: [
-                            {
-                                label: 'My Experiences',
-                                command: (event) => {
-                                    this.props.history.push('/experiences');
-                                }
-                            }
-                        ]
-                    }
-                ]
-            }
+                    ]
+                }
+            ]
 
             return items;
-        }
-
-        this.signup = () => {
-            this.props.history.push('/signup');
         }
 
         this.logout = () => {
@@ -69,24 +44,26 @@ class Main extends React.Component {
                 username: '',
                 id: '',
                 token: ''
-
             })
+            this.props.history.push('/');
         }
-
     }
 
     componentDidMount() {
-        this.expStore.getAll();
-        this.expStore.emitter.addListener('GET_ALL_SUCCESS', () => {
+        this.store.getExperiences();
+
+        this.store.emitter.addListener('GET_EXPERIENCES_SUCCESS', () => {
             this.setState({
-                experiences: this.expStore.data
+                experiences: this.store.data
             })
-        })
-        this.expStore.emitter.addListener('GET_ALL_QUERY_SUCCESS', () => {
-            this.setState({
-                experiences: this.expStore.data
-            })
-        })
+        });
+        this.store.emitter.addListener('GET_EXPERIENCES_FAILED', () => {
+
+        });
+
+        this.store.emitter.addListener('GET_EXPERIENCES_FAILED', () => {
+            this.props.history.push('/')
+        });
     }
 
     render() {
@@ -94,7 +71,6 @@ class Main extends React.Component {
             if (!experience) {
                 return;
             }
-
             return renderGridItem(experience);
 
         };
@@ -102,7 +78,7 @@ class Main extends React.Component {
         const renderGridItem = (data) => {
             return (
                 <div className='experience'>
-                    <Card title={data.city} style={{ marginBottom: '1em' }}>
+                    <Card title={data.city} style={{ marginBottom: '1em', padding: '1em'}}>
                         {
                             data.start &&
                             <p className="p-m-0" style={{ lineHeight: '1.5' }}>
@@ -148,7 +124,17 @@ class Main extends React.Component {
                                 satisfaction: {data.satisfaction}
                             </p>
                         }
+                        <Button icon="pi pi-trash" className="p-button-rounded user-buttons" onClick={() => {
+                            this.store.deleteOne(data.id);
+                        }} />
+                        <Button icon="pi pi-pencil" className="p-button-rounded user-buttons" onClick={() => {
+                            //aici faci edit-ul
+                            //this.store.saveOne()
+                        }}/>
+
+
                     </Card>
+
                 </div>
 
             );
@@ -158,19 +144,17 @@ class Main extends React.Component {
             <div>
                 <div>
                     <Menubar model={this.getMenuItems()} className="menubar"
-                        end={this.props.loggedUser.username === '' ? <Button label="Sign Up" onClick={this.signup} /> : <Button label="Log Out" onClick={this.logout} />} />
+                        end={<Button label="Log Out" onClick={this.logout} />} />
                 </div>
-                <div className="center">
-                    <InputText type="text" className="p-inputtext-lg p-d-block main-input-text"
-                        placeholder="Search for cities, transport, destinations..."
-                        onChange={this.handleChange} />
-                </div>
-                <div className="card">
-                    <DataView style={{ padding: '2em' }} value={this.state.experiences} layout={'grid'} itemTemplate={itemTemplate}></DataView>
+                <div>
+                    <h1>Experiences of user {this.props.user.username}:</h1>
+                    <div className="card">
+                        <DataView style={{ padding: '2em' }} value={this.state.experiences} layout={'grid'} itemTemplate={itemTemplate}></DataView>
+                    </div>
                 </div>
             </div>
         )
     }
 }
 
-export default withRouter(Main);
+export default withRouter(UserExperiences); 

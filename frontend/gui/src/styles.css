@@ -74,3 +74,10 @@ body {
 .p-submenu-list .p-menuitem-text {
     color: black !important;
 }
+
+.user-buttons {
+    float: right !important;
+    position: relative !important;
+    margin-right: 5px;
+    
+}
