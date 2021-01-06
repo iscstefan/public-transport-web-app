@@ -37,7 +37,7 @@ class Login extends React.Component {
     componentDidMount() {
         loginStore.emitter.addListener('LOGIN_SUCCESS', () => {
             this.props.onLogin(loginStore.user);
-            this.props.history.push('/');
+            this.props.history.push('/')
         });
         loginStore.emitter.addListener('LOGIN_FAILED', () => {
             alert('Nu te-ai logat');

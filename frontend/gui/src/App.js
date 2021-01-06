@@ -3,6 +3,7 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 import Main from './Main'
 import Login from './Login'
 import Signup from './Signup'
+import UserExperiences from './UserExperiences'
 
 class App extends React.Component {
   constructor() {
@@ -35,6 +36,9 @@ class App extends React.Component {
           </Route>
           <Route path='/signup' exact={true}>
             <Signup />
+          </Route>
+          <Route path='/experiences' exact={true}>
+            <UserExperiences user={this.state.user} onLogout={this.setUserState}/>
           </Route>
         </Switch>
       </Router>
