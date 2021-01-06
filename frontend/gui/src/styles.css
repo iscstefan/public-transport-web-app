@@ -81,3 +81,9 @@ body {
     margin-right: 5px;
     
 }
+
+.centered-experiences {
+    display: flex;
+    justify-content: center;
+    margin: 2em;
+}

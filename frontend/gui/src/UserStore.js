@@ -51,6 +51,24 @@ class UserStore {
             this.emitter.emit('DELETE_ONE_ERROR');
         }
     }
+
+    async addOne(experience) {
+        try {
+            await fetch(`${SERVER}/users/${this.user.id}/experiences`, {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': `${this.user.token}`
+                },
+                body: JSON.stringify(experience)
+            })
+
+            this.getExperiences();
+        } catch (err) {
+            console.warn(err);
+            this.emitter.emit('ADD_ONE_ERROR');
+        }
+    }
 }
 
 export default UserStore;

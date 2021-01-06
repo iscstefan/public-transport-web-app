@@ -8,7 +8,7 @@ import UserExperiences from './UserExperiences'
 class App extends React.Component {
   constructor() {
     super();
-    
+
     this.state = {
       user: {
         username: '',
@@ -29,16 +29,16 @@ class App extends React.Component {
       <Router>
         <Switch>
           <Route path='/' exact={true}>
-            <Main loggedUser={this.state.user} onLogout={this.setUserState}/>
+            <Main loggedUser={this.state.user} onLogout={this.setUserState} />
           </Route>
           <Route path='/login' exact={true}>
-            <Login onLogin={this.setUserState}/>
+            <Login onLogin={this.setUserState} />
           </Route>
           <Route path='/signup' exact={true}>
             <Signup />
           </Route>
           <Route path='/experiences' exact={true}>
-            <UserExperiences user={this.state.user} onLogout={this.setUserState}/>
+            <UserExperiences user={this.state.user} onLogout={this.setUserState} />
           </Route>
         </Switch>
       </Router>

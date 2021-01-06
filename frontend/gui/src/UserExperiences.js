@@ -5,16 +5,63 @@ import { DataView } from 'primereact/dataview';
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import UserStore from "./UserStore"
+import { Dialog } from 'primereact/dialog';
+import { InputText } from 'primereact/inputtext';
+
 
 class UserExperiences extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            experiences: []
+            experiences: [],
+            isAddDialogShown: false,
+            experience: {
+                city: null,
+                start: "",
+                destination: "",
+                transport: null,
+                startTime: "",
+                duration: "",
+                congestion: "",
+                observations: "",
+                satisfaction: 0,
+            }
         };
 
         this.store = new UserStore(this.props.user);
+
+        this.handleExperienceChange = (evt) => {
+            const experience = this.state.experience;
+            experience[evt.target.name] = evt.target.value
+            this.setState({
+                experience: experience
+            })
+        }
+
+        this.hideAddDialog = () => {
+            this.setState({
+                isAddDialogShown: false
+            })
+        }
+
+        this.add = () => {
+            //De facut validari inainte de a adauga:)
+            this.store.addOne(this.state.experience);
+            this.hideAddDialog();
+        }
+
+        this.showAddDialog = () => {
+            this.setState({
+                isAddDialogShown: true
+            })
+        }
+
+        this.addDialogFooter = (
+            <div className='centered'>
+                <Button icon="pi pi-check" label='save' className="p-button-rounded p-button-outlined" onClick={this.add} />
+            </div>
+        )
 
         this.getMenuItems = () => {
             let items;
@@ -64,6 +111,10 @@ class UserExperiences extends React.Component {
         this.store.emitter.addListener('GET_EXPERIENCES_FAILED', () => {
             this.props.history.push('/')
         });
+
+        this.store.emitter.addListener('ADD_ONE_FAILED', () => {
+            alert('Experience could not be added');
+        });
     }
 
     render() {
@@ -78,7 +129,7 @@ class UserExperiences extends React.Component {
         const renderGridItem = (data) => {
             return (
                 <div className='experience'>
-                    <Card title={data.city} style={{ marginBottom: '1em', padding: '1em'}}>
+                    <Card title={data.city} style={{ marginBottom: '1em', padding: '1em' }}>
                         {
                             data.start &&
                             <p className="p-m-0" style={{ lineHeight: '1.5' }}>
@@ -128,10 +179,9 @@ class UserExperiences extends React.Component {
                             this.store.deleteOne(data.id);
                         }} />
                         <Button icon="pi pi-pencil" className="p-button-rounded user-buttons" onClick={() => {
-                            //aici faci edit-ul
-                            //this.store.saveOne()
-                        }}/>
 
+                            this.props.history.push('/experiences/add')
+                        }} />
 
                     </Card>
 
@@ -146,12 +196,27 @@ class UserExperiences extends React.Component {
                     <Menubar model={this.getMenuItems()} className="menubar"
                         end={<Button label="Log Out" onClick={this.logout} />} />
                 </div>
+                <div className="centered-experiences">
+                    <Button icon="pi pi-plus" className="centered-button p-button" label="New Experience" onClick={this.showAddDialog} />
+                </div>
                 <div>
-                    <h1>Experiences of user {this.props.user.username}:</h1>
                     <div className="card">
                         <DataView style={{ padding: '2em' }} value={this.state.experiences} layout={'grid'} itemTemplate={itemTemplate}></DataView>
                     </div>
                 </div>
+
+                <Dialog style={{ width: '35vw' }} header="Add an experience" visible={this.state.isAddDialogShown} onHide={this.hideAddDialog} className='p-fluid'
+                    footer={this.addDialogFooter} >
+                    <div className='p-field'>
+                        <label htmlFor="row">City *</label>
+                        <InputText type="text" id="city" name="city" value={this.state.experience.city} onChange={this.handleExperienceChange} />
+                    </div>
+                    <div className='p-field'>
+                        <label htmlFor="col" >Transport *</label>
+                        <InputText type="text" id="transport" name="transport" value={this.state.experience.transport} onChange={this.handleExperienceChange} />
+                    </div>
+
+                </Dialog>
             </div>
         )
     }
