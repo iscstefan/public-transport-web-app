@@ -87,3 +87,7 @@ body {
     justify-content: center;
     margin: 2em;
 }
+
+.validation {
+    color: red;
+}

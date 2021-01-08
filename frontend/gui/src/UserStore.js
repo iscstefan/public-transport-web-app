@@ -10,7 +10,6 @@ class UserStore {
 
     async getExperiences() {
         try {
-            console.log(this.user);
             const response = await fetch(`${SERVER}/users/${this.user.id}/experiences`, {
                 method: 'get',
                 headers: {
@@ -67,6 +66,23 @@ class UserStore {
         } catch (err) {
             console.warn(err);
             this.emitter.emit('ADD_ONE_ERROR');
+        }
+    }
+
+    async saveOne(id, experience){
+        try {
+            await fetch(`${SERVER}/users/${this.user.id}/experiences/${id}`, {
+                method: 'put',
+                headers: {
+                    "Content-Type": 'application/json',
+                    "token": `${this.user.token}`
+                },
+                body: JSON.stringify(experience)
+            });
+            this.getExperiences();
+        } catch (error) {
+            console.warn(error);
+            this.emitter.emit('SAVE_ONE_ERROR')
         }
     }
 }

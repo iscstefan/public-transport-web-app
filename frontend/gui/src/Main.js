@@ -6,6 +6,7 @@ import { DataView } from 'primereact/dataview';
 import { Card } from 'primereact/card';
 import { withRouter } from 'react-router';
 import { Button } from 'primereact/button';
+import {Rating} from 'primereact/rating';
 
 
 class Main extends React.Component {
@@ -138,15 +139,14 @@ class Main extends React.Component {
                         }
                         {
                             data.observations &&
-                            <p className="p-m-0" style={{ lineHeight: '1.5' }}>
+                            <div className="p-m-0" style={{ lineHeight: '1.5' }}>
                                 Observations: {data.observations}
-                            </p>
+                            </div>
                         }
                         {
-                            data.satisfaction &&
-                            <p className="p-m-0" style={{ lineHeight: '1.5' }}>
-                                satisfaction: {data.satisfaction}
-                            </p>
+                            <div className="p-m-0" style={{ lineHeight: '1.5' }}>
+                                <Rating value={data.satisfaction} readonly stars={5} cancel={false} />
+                            </div>
                         }
                     </Card>
                 </div>
