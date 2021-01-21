@@ -1,6 +1,7 @@
 body {
     margin: 0px;
     padding: 0px;
+    background-color: #dedede;
 }
 
 .center {
@@ -33,6 +34,7 @@ body {
 .p-submenu-icon {
     color: whitesmoke !important;
 }
+
 
 .experience {
     width: 100vw;
@@ -91,3 +93,13 @@ body {
 .validation {
     color: red;
 }
+
+.card .p-dataview-content {
+    background-color: #dedede;
+}
+
+.validator {
+    display: flex;
+    align-self: flex-start;
+}
+

@@ -46,11 +46,18 @@ class Main extends React.Component {
                     },
                     {
                         label: this.props.loggedUser.username,
+                        icon:'pi pi-fw pi-user',
                         items: [
                             {
                                 label: 'My Experiences',
                                 command: (event) => {
                                     this.props.history.push('/experiences');
+                                },
+                            },
+                            {
+                                label: 'User Settings',
+                                command: (event) => {
+                                    this.props.history.push(`/user-settings/${this.props.loggedUser.id}`)
                                 }
                             }
                         ]
@@ -166,7 +173,7 @@ class Main extends React.Component {
                         onChange={this.handleChange} />
                 </div>
                 <div className="card">
-                    <DataView style={{ padding: '2em' }} value={this.state.experiences} layout={'grid'} itemTemplate={itemTemplate}></DataView>
+                    <DataView style={{ padding: '2em'}} value={this.state.experiences} layout={'grid'} itemTemplate={itemTemplate}></DataView>
                 </div>
             </div>
         )

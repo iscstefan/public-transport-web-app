@@ -4,6 +4,7 @@ import Main from './Main'
 import Login from './Login'
 import Signup from './Signup'
 import UserExperiences from './UserExperiences'
+import UserSettings from './UserSettings'
 
 class App extends React.Component {
   constructor() {
@@ -39,6 +40,9 @@ class App extends React.Component {
           </Route>
           <Route path='/experiences' exact={true}>
             <UserExperiences user={this.state.user} onLogout={this.setUserState} />
+          </Route>
+          <Route path='/user-settings/:uid' exact={true}>
+            <UserSettings user={this.state.user} onUserChange={this.setUserState} onLogout={this.setUserState}></UserSettings>
           </Route>
         </Switch>
       </Router>

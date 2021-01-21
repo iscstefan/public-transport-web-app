@@ -8,9 +8,9 @@ import UserStore from "./UserStore"
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
-import {InputTextarea} from 'primereact/inputtextarea';
-import {Rating} from 'primereact/rating';
-import {Dropdown} from 'primereact/dropdown';
+import { InputTextarea } from 'primereact/inputtextarea';
+import { Rating } from 'primereact/rating';
+import { Dropdown } from 'primereact/dropdown';
 
 
 class UserExperiences extends React.Component {
@@ -20,7 +20,7 @@ class UserExperiences extends React.Component {
         this.state = {
             experiences: [],
             isAddDialogShown: false,
-            editDialog:false,
+            editDialog: false,
             experience: {
                 city: null,
                 start: "",
@@ -31,14 +31,14 @@ class UserExperiences extends React.Component {
                 congestion: "",
                 observations: "",
                 satisfaction: null,
-                id:null
+                id: null
             },
             invalidCity: false,
             invalidTransport: false,
             invalidObservations: false
         };
 
-        this.levels =['High', 'Medium', 'Low'];
+        this.levels = ['High', 'Medium', 'Low'];
 
         this.store = new UserStore(this.props.user);
 
@@ -70,7 +70,7 @@ class UserExperiences extends React.Component {
             })
         }
 
-        this.hideEditDialog = () =>{
+        this.hideEditDialog = () => {
             this.setState({
                 isAddDialogShown: false
             })
@@ -79,38 +79,38 @@ class UserExperiences extends React.Component {
         this.add = () => {
             //Validari 
             let invalid = false;
-            if (this.state.experience.city === null || this.state.experience.city ==="" || this.state.experience.city.startsWith(" ")) {
+            if (this.state.experience.city === null || this.state.experience.city === "" || this.state.experience.city.startsWith(" ")) {
                 this.setState({
                     invalidCity: true
                 })
-                invalid=true;
+                invalid = true;
             } else {
                 this.setState({
                     invalidCity: false
                 })
             }
-            if (this.state.experience.transport === null || this.state.experience.transport ==="" || this.state.experience.transport.startsWith(" ")) {
+            if (this.state.experience.transport === null || this.state.experience.transport === "" || this.state.experience.transport.startsWith(" ")) {
                 this.setState({
                     invalidTransport: true
                 })
-                invalid=true;
+                invalid = true;
             } else {
                 this.setState({
                     invalidTransport: false
                 })
             }
-            if(this.state.experience.observations && this.state.experience.observations.length > 140){
+            if (this.state.experience.observations && this.state.experience.observations.length > 140) {
                 this.setState({
                     invalidObservations: true
                 })
-                invalid=true;
+                invalid = true;
             } else {
                 this.setState({
                     invalidObservations: false
                 })
             }
 
-            if(invalid){
+            if (invalid) {
                 return;
             }
 
@@ -135,13 +135,13 @@ class UserExperiences extends React.Component {
                 experience: experience
             })
 
-            if(this.state.editDialog){
+            if (this.state.editDialog) {
                 this.store.saveOne(this.state.experience.id, this.state.experience);
                 this.hideEditDialog();
-            }else{
+            } else {
                 this.store.addOne(this.state.experience);
                 this.hideAddDialog();
-            }  
+            }
         }
 
         this.showAddDialog = () => {
@@ -180,9 +180,16 @@ class UserExperiences extends React.Component {
                 },
                 {
                     label: this.props.user.username,
+                    icon: 'pi pi-fw pi-user',
                     items: [
                         {
                             label: 'My Experiences',
+                        },
+                        {
+                            label: 'User Settings',
+                            command: (event) => {
+                                this.props.history.push(`/user-settings/${this.props.user.id}`)
+                            }
                         }
                     ]
                 }
@@ -251,13 +258,13 @@ class UserExperiences extends React.Component {
                             Transport: <b>{data.transport}</b>
                         </p>
                         {
-                            data.startTime && 
+                            data.startTime &&
                             <p className="p-m-0" style={{ lineHeight: '1.5' }}>
                                 Start time: {data.startTime}
                             </p>
                         }
                         {
-                            data.duration && 
+                            data.duration &&
                             <p className="p-m-0" style={{ lineHeight: '1.5' }}>
                                 Duration: {data.duration}
                             </p>
@@ -292,11 +299,11 @@ class UserExperiences extends React.Component {
                             startTime.setHours(data.startTime.split(":")[0]);
                             startTime.setMinutes(data.startTime.split(":")[1]);
                             experience['startTime'] = startTime;
-                            experience['duration'] = parseInt(data.duration.split(":")[0])*60 + parseInt(data.duration.split(":")[1]);
+                            experience['duration'] = parseInt(data.duration.split(":")[0]) * 60 + parseInt(data.duration.split(":")[1]);
                             experience['congestion'] = data.congestion;
                             experience['observations'] = data.observations;
                             experience['satisfaction'] = data.satisfaction;
-                            experience['id']=data.id;
+                            experience['id'] = data.id;
                             this.setState({
                                 experience: experience,
                                 editDialog: true,
@@ -326,11 +333,11 @@ class UserExperiences extends React.Component {
                     </div>
                 </div>
 
-                <Dialog style={{ width: '35vw' }} header={this.editDialog?"Add an experience": "Edit experience"} visible={this.state.isAddDialogShown} 
-                onHide={this.state.editDialog===true ? this.hideEditDialog : this.hideAddDialog} className='p-fluid'
+                <Dialog style={{ width: '35vw' }} header={this.editDialog ? "Add an experience" : "Edit experience"} visible={this.state.isAddDialogShown}
+                    onHide={this.state.editDialog === true ? this.hideEditDialog : this.hideAddDialog} className='p-fluid'
                     footer={this.addDialogFooter} >
                     <div className='p-field'>
-                        <label htmlFor="row">City * {this.state.invalidCity&&<small className='validation'>This field is required.</small>}</label>
+                        <label htmlFor="row">City * {this.state.invalidCity && <small className='validation'>This field is required.</small>}</label>
                         <InputText type="text" id="city" name="city" value={this.state.experience.city} onChange={this.handleExperienceChange} />
                     </div>
                     <div className='p-field'>
@@ -342,7 +349,7 @@ class UserExperiences extends React.Component {
                         <InputText type="text" id="destination" name="destination" value={this.state.experience.destination} onChange={this.handleExperienceChange} />
                     </div>
                     <div className='p-field'>
-                        <label htmlFor="col" >Transport * {this.state.invalidTransport&&<small className='validation'>This field is required.</small>}</label>
+                        <label htmlFor="col" >Transport * {this.state.invalidTransport && <small className='validation'>This field is required.</small>}</label>
                         <InputText type="text" id="transport" name="transport" value={this.state.experience.transport} onChange={this.handleExperienceChange} />
                     </div>
                     <div className="p-field ">
@@ -358,7 +365,7 @@ class UserExperiences extends React.Component {
                         <Dropdown id="congestion" name="congestion" value={this.state.experience.congestion} options={this.levels} onChange={this.handleExperienceChange} placeholder="Select a level of congestion" />
                     </div>
                     <div className='p-field'>
-                        <label htmlFor="row">Observations {this.state.invalidObservations&&<small className='validation'>Too large text.</small>}</label>
+                        <label htmlFor="row">Observations {this.state.invalidObservations && <small className='validation'>Too large text.</small>}</label>
                         <InputTextarea id="observations" name="observations" value={this.state.experience.observations} onChange={this.handleExperienceChange} rows={3} cols={30} />
                     </div>
                     <div className='p-field'>

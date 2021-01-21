@@ -8,6 +8,26 @@ class UserStore {
         this.emitter = new EventEmitter();
     }
 
+    async isLoggedIn() {
+        try {
+            const response = await fetch(`${SERVER}/users/${this.user.id}`, {
+                method: 'put',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': `${this.user.token}`
+                }
+            })
+
+            if (response.status !== 200) {
+                this.emitter.emit('USER_AUTH_FAILED')
+            }
+
+        } catch (err) {
+            console.warn(err)
+            this.emitter.emit('USER_AUTH_FAILED')
+        }
+    }
+
     async getExperiences() {
         try {
             const response = await fetch(`${SERVER}/users/${this.user.id}/experiences`, {
@@ -34,6 +54,22 @@ class UserStore {
         }
     }
 
+    async deleteUser() {
+        try {
+            await fetch(`${SERVER}/users/${this.user.id}`, {
+                method: 'delete',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': `${this.user.token}`
+                }
+            })
+
+        } catch (err) {
+            console.warn(err);
+            this.emitter.emit('DELETE_USER_ERROR');
+        }
+    }
+
     async deleteOne(id) {
         try {
             await fetch(`${SERVER}/users/${this.user.id}/experiences/${id}`, {
@@ -50,6 +86,8 @@ class UserStore {
             this.emitter.emit('DELETE_ONE_ERROR');
         }
     }
+
+
 
     async addOne(experience) {
         try {
@@ -69,7 +107,35 @@ class UserStore {
         }
     }
 
-    async saveOne(id, experience){
+    async updateUser(user) {
+        try {
+            const response = await fetch(`${SERVER}/users/${this.user.id}`, {
+                method: 'put',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': `${this.user.token}`
+                },
+                body: JSON.stringify(user)
+            })
+            
+            if(response.status === 200) {
+                if(user.password == null)
+                    this.emitter.emit('USER_UPDATE_SUCCESS')
+                else
+                    this.emitter.emit('PASS_UPDATE_SUCCESS')
+            } else if (response.status === 422) {
+                this.emitter.emit('USER_UPDATE_422')
+            } else {
+                this.emitter.emit('USER_AUTH_FAILED')
+            }
+
+        } catch (err) {
+            console.warn(err)
+            this.emitter.emit('USER_AUTH_FAILED')
+        }
+    }
+
+    async saveOne(id, experience) {
         try {
             await fetch(`${SERVER}/users/${this.user.id}/experiences/${id}`, {
                 method: 'put',
