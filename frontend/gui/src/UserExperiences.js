@@ -31,7 +31,7 @@ class UserExperiences extends React.Component {
                 congestion: "",
                 observations: "",
                 satisfaction: null,
-                id: null
+                expId: null
             },
             invalidCity: false,
             invalidTransport: false,
@@ -136,7 +136,7 @@ class UserExperiences extends React.Component {
             })
 
             if (this.state.editDialog) {
-                this.store.saveOne(this.state.experience.id, this.state.experience);
+                this.store.saveOne(this.state.experience.expId, this.state.experience);
                 this.hideEditDialog();
             } else {
                 this.store.addOne(this.state.experience);
@@ -303,7 +303,7 @@ class UserExperiences extends React.Component {
                             experience['congestion'] = data.congestion;
                             experience['observations'] = data.observations;
                             experience['satisfaction'] = data.satisfaction;
-                            experience['id'] = data.id;
+                            experience['expId'] = data.id;
                             this.setState({
                                 experience: experience,
                                 editDialog: true,

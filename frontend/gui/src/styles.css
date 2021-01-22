@@ -24,10 +24,6 @@ body {
     padding-right: 3em;
 }
 
-.p-menuitem-text {
-    color: whitesmoke !important;
-}
-
 .p-menuitem-icon {
     color: whitesmoke !important;
 }
@@ -116,3 +112,26 @@ body {
 
 }
 
+.pi-bars:before {
+    color: whitesmoke;
+}
+
+.p-menubar .p-menubar-button{
+    color: whitesmoke;
+}
+
+.p-menubar .p-menubar-button:hover{
+    color: whitesmoke;
+}
+
+ .p-menuitem-text {
+    color: whitesmoke !important;
+}
+
+/* .p-menubar-button .p-menubar-root-list > .p-menuitem > .p-menuitem-link .p-menuitem-text{
+    color: #000000 !important;
+} */
+
+.p-menubar-root-list {
+    background-color:  rgb(43, 49, 59) !important;
+}
