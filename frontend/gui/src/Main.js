@@ -110,7 +110,7 @@ class Main extends React.Component {
         const renderGridItem = (data) => {
             return (
                 <div className='experience'>
-                    <Card title={data.city} style={{ marginBottom: '1em' }}>
+                    <Card title={data.city} style={{ marginBottom: '1em', padding: '1em'}} className="p-shadow-4">
                         {
                             data.start &&
                             <p className="p-m-0" style={{ lineHeight: '1.5' }}>
@@ -168,8 +168,8 @@ class Main extends React.Component {
                         end={this.props.loggedUser.username === '' ? <Button label="Sign Up" onClick={this.signup} /> : <Button label="Log Out" onClick={this.logout} />} />
                 </div>
                 <div className="center">
-                    <InputText type="text" className="p-inputtext-lg p-d-block main-input-text"
-                        placeholder="Search for cities, transport, destinations..."
+                    <InputText type="text" className="p-inputtext-lg p-d-block main-input-text p-shadow-4"
+                        placeholder={"Search by city, transport, destinations..."}
                         onChange={this.handleChange} />
                 </div>
                 <div className="card">

@@ -4,10 +4,13 @@ import { Menubar } from 'primereact/menubar';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import loginStore from './LoginStore';
+import { Toast } from 'primereact/toast';
 
 class Login extends React.Component {
     constructor(props) {
         super(props);
+
+        this.toast = React.createRef();
 
         this.state = {
             username: "",
@@ -40,7 +43,9 @@ class Login extends React.Component {
             this.props.history.push('/')
         });
         loginStore.emitter.addListener('LOGIN_FAILED', () => {
-            alert('Nu te-ai logat');
+            if (this.toast.current !== null)
+                this.toast.current.show({ severity: 'info', summary: 'Login Failed', detail: 'Invalid credentials', life: 3000 });
+
         });
     }
 
@@ -50,18 +55,19 @@ class Login extends React.Component {
                 <div>
                     <Menubar model={this.menuItems} className="menubar" />
                 </div>
+                <Toast ref={this.toast} position="bottom-right" />
                 <div className="centeredLogin">
-                    <h1 style={{fontFamily: 'Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif'}}>Log In</h1>
+                    <h1 style={{ fontFamily: 'Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif' }}>Log In</h1>
                     <span className="p-float-label centeredLoginInput">
-                        <InputText style={{width: '100%'}} id="username" value={this.state.username} name="username" onChange={this.handleChange} />
+                        <InputText style={{ width: '100%' }} id="username" value={this.state.username} name="username" onChange={this.handleChange} />
                         <label htmlFor="username">Username</label>
                     </span>
                     <span className="p-float-label centeredLoginInput">
-                        <InputText style={{width: '100%'}} type='password' id="password" value={this.state.password} name="password" onChange={this.handleChange} />
+                        <InputText style={{ width: '100%' }} type='password' id="password" value={this.state.password} name="password" onChange={this.handleChange} />
                         <label htmlFor="password">Password</label>
                     </span>
                     <div className="submitBtnParent">
-                        <Button label="Submit" onClick={this.handleLogin}/>
+                        <Button label="Submit" onClick={this.handleLogin} />
                     </div>
                 </div>
             </div>

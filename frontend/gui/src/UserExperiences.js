@@ -241,7 +241,7 @@ class UserExperiences extends React.Component {
         const renderGridItem = (data) => {
             return (
                 <div className='experience'>
-                    <Card title={data.city} style={{ marginBottom: '1em', padding: '1em' }}>
+                    <Card title={data.city} style={{ marginBottom: '1em', padding: '1em' }} className="p-shadow-4">
                         {
                             data.start &&
                             <p className="p-m-0" style={{ lineHeight: '1.5' }}>
@@ -325,7 +325,7 @@ class UserExperiences extends React.Component {
                         end={<Button label="Log Out" onClick={this.logout} />} />
                 </div>
                 <div className="centered-experiences">
-                    <Button icon="pi pi-plus" className="centered-button p-button" label="New Experience" onClick={this.showAddDialog} />
+                    <Button icon="pi pi-plus" className="centered-button p-button p-shadow-4" label="New Experience" onClick={this.showAddDialog} />
                 </div>
                 <div>
                     <div className="card">

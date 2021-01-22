@@ -134,12 +134,12 @@ class UserSettings extends React.Component {
         const renderFooter = (name) => {
             return (
                 <div>
-                    <Button label="No" icon="pi pi-times"  className="p-button-text" onClick={() => this.showDialog()} />
-                    <Button label="Yes" icon="pi pi-check"  autoFocus onClick={() => {
+                    <Button label="No" icon="pi pi-times" className="p-button-text" onClick={() => this.showDialog()} />
+                    <Button label="Yes" icon="pi pi-check" autoFocus onClick={() => {
                         this.store.deleteUser()
-                        
+
                         this.logout();
-                    }}/>
+                    }} />
                 </div>
             );
         }
@@ -150,7 +150,38 @@ class UserSettings extends React.Component {
                     <Menubar model={this.getMenuItems()} className="menubar"
                         end={<Button label="Log Out" onClick={this.logout} />} />
                 </div>
-                <div className='centeredLogin' >
+                <div className='centered-form'>
+                    <div className='centered-form-items'>
+                        <small className="p-invalid p-d-block">{this.state.invalidUsername}</small>
+                    </div>
+                    <div className='centered-form-items'>
+                        <label htmlFor="username" className="p-col-fixed" style={{ width: '100px' }}>Username:</label>
+                        <div className="p-col">
+                            <InputText id="username" type="text" value={this.state.username} name='username' onChange={this.handleChange} />
+                        </div>
+                        <Button style={{ margin: '5px' }} onClick={() => this.updateUser()} className="p-button-raised p-button-text" label='Update' />
+                    </div>
+                    <div className='centered-form-items'>
+                        <small className="p-invalid p-d-block">{this.state.invalidPassword}</small>
+                    </div>
+                    <div className='centered-form-items'>
+                        <label htmlFor="password" className="p-col-fixed" style={{ width: '100px' }}>Password:</label>
+                        <div className="p-col">
+                            <InputText id="password" type="password" name='password' onChange={this.handleChange} value={this.state.password} />
+                        </div>
+                        <Button onClick={() => this.updatePass()} className="p-button-raised p-button-text" label='Update' style={{ margin: '5px' }} />
+                    </div>
+                    <div className='centered-form-items'>
+                        <Button label="Delete Account" icon="pi pi-external-link" onClick={() => this.setState({ displayConfirmation: true })} style={{ position: 'relative', top: '10vh' }} />
+                        <Dialog header="Confirmation" visible={this.state.displayConfirmation} modal style={{ width: '350px' }} footer={renderFooter('displayConfirmation')} onHide={() => this.setState({ displayConfirmation: false })}>
+                            <div className="confirmation-content">
+                                <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
+                                <span>Are you sure you want to proceed?</span>
+                            </div>
+                        </Dialog>
+                    </div>
+                </div>
+                {/* <div className='centeredLogin' >
                     <div className='p-field'>
                         <div>
                             <label htmlFor="username" className="p-col-fixed" style={{ width: '100px' }}>Username:</label>
@@ -159,7 +190,6 @@ class UserSettings extends React.Component {
                             </div>
                             <small className="p-invalid p-d-block">{this.state.invalidUsername}</small>
 
-                            <Button onClick={() => this.updateUser()} className="p-button-raised p-button-text" label='Update username' />
                         </div>
                         <div>
                             <label htmlFor="password" className="p-col-fixed" style={{ width: '100px' }}>Password:</label>
@@ -172,16 +202,10 @@ class UserSettings extends React.Component {
                             </Button>
                         </div>
 
-                        <Button label="Delete Account" icon="pi pi-external-link" onClick={() => this.setState({displayConfirmation:true})} />
-                        <Dialog header="Confirmation" visible={this.state.displayConfirmation} modal style={{ width: '350px' }} footer={renderFooter('displayConfirmation')} onHide={() => this.setState({displayConfirmation:false})}>
-                            <div className="confirmation-content">
-                                <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
-                                <span>Are you sure you want to proceed?</span>
-                            </div>
-                        </Dialog>
+                        
                     </div>
 
-                </div>
+                </div> */}
                 {/* <div className='centeredLogin'>
                 <small id="username2-help" className="p-invalid p-d-block">{this.state.invalidUsername}</small>
                     <div className='centeredLoginInput'>
