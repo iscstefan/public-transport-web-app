@@ -181,60 +181,6 @@ class UserSettings extends React.Component {
                         </Dialog>
                     </div>
                 </div>
-                {/* <div className='centeredLogin' >
-                    <div className='p-field'>
-                        <div>
-                            <label htmlFor="username" className="p-col-fixed" style={{ width: '100px' }}>Username:</label>
-                            <div className="p-col">
-                                <InputText id="username" type="text" value={this.state.username} name='username' onChange={this.handleChange} />
-                            </div>
-                            <small className="p-invalid p-d-block">{this.state.invalidUsername}</small>
-
-                        </div>
-                        <div>
-                            <label htmlFor="password" className="p-col-fixed" style={{ width: '100px' }}>Password:</label>
-                            <div className="p-col">
-                                <InputText id="password" type="password" name='password' onChange={this.handleChange} value={this.state.password} />
-                            </div>
-                            <small className="p-invalid p-d-block">{this.state.invalidPassword}</small>
-
-                            <Button onClick={() => this.updatePass()} className="p-button-raised p-button-text" label='Update password' style={{ marginLeft: '20px' }}>
-                            </Button>
-                        </div>
-
-                        
-                    </div>
-
-                </div> */}
-                {/* <div className='centeredLogin'>
-                <small id="username2-help" className="p-invalid p-d-block">{this.state.invalidUsername}</small>
-                    <div className='centeredLoginInput'>
-                        <div className="p-field p-grid">
-                            <label htmlFor="username" className="p-col-fixed" style={{ width: '100px' }}>Username:</label>
-                            <div className="p-col">
-                                <InputText id="username" type="text" value={this.state.username} name='username' onChange={this.handleChange}/>
-                            </div>
-                            <Button onClick={() => this.updateUser} className="p-button-raised p-button-text" label='Update' style={{ marginLeft: '20px' }}>
-                            </Button>
-                        </div>
-                        <div className="p-field p-grid">
-                            <label htmlFor="password" className="p-col-fixed" style={{ width: '100px' }}>Password:</label>
-                            <div className="p-col">
-                                <InputText id="password" type="password" name='password' onChange={this.handleChange} value={this.state.password} />
-                            </div>
-                            <Button className="p-button-raised p-button-text" label='Update' style={{ marginLeft: '20px' }}>
-                            </Button>
-                        </div>
-                    </div>
-                <small id="username2-help" className="p-invalid p-d-block">{this.state.invalidPassword}</small>
-                    <div className='p-formgroup-inline'>
-                        
-                    </div>
-                    <div className="p-field p-grid">
-                        <Button type='password' className="p-button-warning" label='Delete Account' style={{ marginTop: '40px' }}>
-                        </Button>
-                    </div>
-                </div> */}
             </div>
         )
     }
